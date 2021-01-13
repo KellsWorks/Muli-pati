@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
@@ -43,14 +44,13 @@ class LoginController extends Controller
         $input = $request->all();
 
         $this->validate($request,[
-            'phone' => 'required|phone',
             'password' => 'required',
         ]);
 
         if(auth()->attempt(array('phone' => $input['phone'], 'password' => $input['password']))){
 
-            if(auth()->user()->is_admin == 1){
-                return redirect()->route('adminHome');
+            if(auth()->user()->is_admin == '1'){
+                return redirect()->route('admin-home');
             }else{
                 return redirect()->route('home');
             }
