@@ -34,7 +34,8 @@ class ApiAuthController extends Controller
         if ($user) {
             if (Hash::check($request->password, $user->password)) {
                 $token = $user->createToken('appToken')->accessToken;
-                $response = ['token' => $token];
+                $response = ['token' => $token
+                 ];
                 return response($response, 200);
             } else {
                 $response = ["message" => "Password mismatch"];

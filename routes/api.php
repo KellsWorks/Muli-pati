@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+//Authentication routes
+
 Route::group(['middleware' => ['cors', 'json.response']], function () {
     
     Route::post('v1/login', [App\Http\Controllers\Auth\ApiAuthController::class, 'login'])->name('login.api');
@@ -27,3 +29,5 @@ Route::middleware('auth:api')->group(function () {
     Route::post('v1/logout', [App\Http\Controllers\Auth\ApiAuthController::class, 'logout'])->name('logout.api');
 
 });
+
+//Profile routes
