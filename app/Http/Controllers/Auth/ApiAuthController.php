@@ -5,6 +5,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use App\Models\Profile;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -34,7 +35,10 @@ class ApiAuthController extends Controller
         if ($user) {
             if (Hash::check($request->password, $user->password)) {
                 $token = $user->createToken('appToken')->accessToken;
-                $response = ['token' => $token
+                $response = [
+                    'token' => $token,
+                    'name' => $user->name,
+                    'phone' => $user->phone,
                  ];
                 return response($response, 200);
             } else {
@@ -52,5 +56,24 @@ class ApiAuthController extends Controller
         $token->revoke();
         $response = ['message' => 'You have been successfully logged out!'];
         return response($response, 200);
+    }
+
+
+    //Updates
+
+    public function updatePhoto(Request $request, $id){
+
+        $user = User::findOrFail($id);
+
+        $profile = new Profile();
+
+        if($request->photo != ''){
+
+            $photo = time().'.jpg';
+            file_put_contents('storage/incidences/'.$photo, base64_decode($request->photo));
+            $profile->photo = $photo;
+        }
+        
+        $user->profile()->save($profile);
     }
 }
