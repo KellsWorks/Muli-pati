@@ -36,6 +36,6 @@ Route::middleware('auth:api')->group(function () {
 
 Route::group(['middleware' => ['json.response']], function () {
     
-    Route::post('v1/trips/create', [App\Http\Controllers\TripsController::class, 'create'])->name('create-trip.api');
+    Route::post('v1/trips/create/{id}', [App\Http\Controllers\TripsController::class, 'create'])->name('create-trip.api');
   
 });
