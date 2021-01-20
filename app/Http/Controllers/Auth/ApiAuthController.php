@@ -21,6 +21,8 @@ class ApiAuthController extends Controller
         {
             return response(['errors'=>$validator->errors()->all()], 422);
         }
+
+        
         $request['password']=Hash::make($request['password']);
         $request['remember_token'] = Str::random(10);
         $user = User::create($request->toArray());
@@ -66,14 +68,20 @@ class ApiAuthController extends Controller
         $user = User::findOrFail($id);
 
         $profile = new Profile();
-
+        $profile->email = '';
+        $profile->location = '';
+        
         if($request->photo != ''){
 
             $photo = time().'.jpg';
-            file_put_contents('storage/incidences/'.$photo, base64_decode($request->photo));
+            file_put_contents('storage/profile/'.$photo, base64_decode($request->photo));
             $profile->photo = $photo;
         }
         
         $user->profile()->save($profile);
+
+        return response([
+            'message' => 'success'
+        ], 200);
     }
 }
