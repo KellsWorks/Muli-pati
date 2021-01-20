@@ -36,10 +36,26 @@ class TripsController extends Controller
 
     public function update(Request $request){
 
-    }
+        $id = $request->id;
 
-    public function cancel(Request $request){
+        $trip = Trips::finOrFail($id);
 
+        $trip->start = $request->start;
+        $trip->destination = $request->destination;
+        $trip->start_time = $request->start_time;
+        $trip->end_time = $request->end_time;
+        $trip->pick_up_place = $request->pick_up_place;
+        $trip->location = $request->location;
+        $trip->number_of_passengers = $request->number_of_passengers;
+        $trip->passenger_fare = $request->passenger_fare;
+        $trip->car_type = $request->car_type;
+        $trip->car_photo = $request->car_photo;
+
+        $trip->update();
+
+        return response([
+            'message' => 'success'
+        ], 200);
     }
 
     public function trips(Request $request){
@@ -128,4 +144,22 @@ class TripsController extends Controller
             'message' => 'success'
         ], 200);
     }
+
+    //trips preference
+
+    public function delete(Request $request){
+
+        $id = $request->id;
+
+        $trip = Trips::findOrFail($id);
+
+        if($id == $trip->user_id){
+            $trip->delete();
+        }
+
+        return response([
+            'message' => 'success'
+        ], 200);
+    }
+    
 }

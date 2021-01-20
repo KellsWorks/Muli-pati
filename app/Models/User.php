@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 use App\Models\Profile;
 use App\Models\Trips;
+use App\Models\TripChat;
 
 class User extends Authenticatable
 {
@@ -52,5 +53,10 @@ class User extends Authenticatable
     public function trip()
     {
         return $this->hasOne(Trips::class, 'location', 'end_time', 'start_time');
+    }
+
+    public function trip_chat()
+    {
+        return $this->hasOne(TripChat::class);
     }
 }

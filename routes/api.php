@@ -32,7 +32,7 @@ Route::middleware('auth:api')->group(function () {
 
 });
 
-//Profile routes
+//trips routes
 
 Route::group(['middleware' => ['json.response']], function () {
     
@@ -44,6 +44,10 @@ Route::group(['middleware' => ['json.response']], function () {
 
     Route::post('v1/trips/completed', [App\Http\Controllers\TripsController::class, 'completed']);
   
-    Route::post('v1/trips/completed', [App\Http\Controllers\TripsController::class, 'cancelled']);
+    Route::post('v1/trips/cancelled', [App\Http\Controllers\TripsController::class, 'cancelled']);
+
+    Route::post('v1/trips/delete', [App\Http\Controllers\TripsController::class, 'delete']);
+
+    Route::post('v1/trips/update', [App\Http\Controllers\TripsController::class, 'update']);
   
 });
