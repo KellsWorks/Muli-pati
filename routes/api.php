@@ -33,3 +33,9 @@ Route::middleware('auth:api')->group(function () {
 });
 
 //Profile routes
+
+Route::group(['middleware' => ['json.response']], function () {
+    
+    Route::post('v1/trips/create', [App\Http\Controllers\TripsController::class, 'create'])->name('create-trip.api');
+  
+});

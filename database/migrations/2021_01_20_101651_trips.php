@@ -13,15 +13,24 @@ class Trips extends Migration
      */
     public function up()
     {
-        Schema::create('profiles', function (Blueprint $table) {
+        Schema::create('trips', function (Blueprint $table) {
+
             $table->bigIncrements('id');
             $table->integer('user_id')->unsigned()->nullable();
             $table->foreign('user_id')->references('id')->on('users');
-            $table->string('role')->default('normal-user');
-            $table->string('photo');
-            $table->string('email');
+            $table->string('status')->default('active');
+            $table->string('start');
+            $table->string('destination');
+            $table->dateTime('start_time');
+            $table->dateTime('end_time');
+            $table->string('pick_up_place');
             $table->string('location');
+            $table->string('number_of_passengers');
+            $table->string('passenger_fare');
+            $table->string('car_type');
+            $table->string('car_photo');
             $table->timestamps();
+
         });
     }
 
@@ -32,6 +41,6 @@ class Trips extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('profiles');
+        Schema::dropIfExists('trips');
     }
 }
