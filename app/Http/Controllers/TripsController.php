@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Trips;
 use App\Models\User;
 use DateTime;
+use Carbon\Carbon;
 
 class TripsController extends Controller
 {
@@ -48,7 +49,11 @@ class TripsController extends Controller
         $user = User::findOrFail($id);
         
         $trips = Trips::find($id);
-        $timeDiff = $trips->end_time->diff($trips->start_time);
+
+        $startTime = new Carbon($trips->end_time);
+        $endTime = new Carbon($trips->start_time);
+
+        $timeDiff = $endTime->diff($startTime);
 
         
         if($id == $trips->user_id){
@@ -74,5 +79,53 @@ class TripsController extends Controller
 
         }  
 
+    }
+
+    public function book(Request $request){
+
+        $id = $request->id;
+
+        $trip = Trips::findOrFail($id);
+
+        if($id == $trip->user_id){
+            $trip->status = 'booked';
+            $trip->update();
+        }
+
+        return response([
+            'message' => 'success'
+        ], 200);
+    }
+
+    public function completed(Request $request){
+
+        $id = $request->id;
+
+        $trip = Trips::findOrFail($id);
+
+        if($id == $trip->user_id){
+            $trip->status = 'completed';
+            $trip->update();
+        }
+
+        return response([
+            'message' => 'success'
+        ], 200);
+    }
+
+    public function cancelled(Request $request){
+
+        $id = $request->id;
+
+        $trip = Trips::findOrFail($id);
+
+        if($id == $trip->user_id){
+            $trip->status = 'cancelled';
+            $trip->update();
+        }
+
+        return response([
+            'message' => 'success'
+        ], 200);
     }
 }

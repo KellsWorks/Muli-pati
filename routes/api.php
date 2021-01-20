@@ -39,5 +39,11 @@ Route::group(['middleware' => ['json.response']], function () {
     Route::post('v1/trips/create/{id}', [App\Http\Controllers\TripsController::class, 'create']);
 
     Route::get('v1/trips/all', [App\Http\Controllers\TripsController::class, 'trips']);
+
+    Route::post('v1/trips/book', [App\Http\Controllers\TripsController::class, 'book']);
+
+    Route::post('v1/trips/completed', [App\Http\Controllers\TripsController::class, 'completed']);
+  
+    Route::post('v1/trips/completed', [App\Http\Controllers\TripsController::class, 'cancelled']);
   
 });
