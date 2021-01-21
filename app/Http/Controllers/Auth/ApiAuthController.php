@@ -33,13 +33,18 @@ class ApiAuthController extends Controller
     public function login (Request $request) {
         
         $user = User::where('phone', $request->phone)->first();
+        
         if ($user) {
             if (Hash::check($request->password, $user->password)) {
                 $token = $user->createToken('appToken')->accessToken;
+
+                $profile = Profile::findOrFail($user->id);
+            
                 $response = [
                     'token' => $token,
                     'name' => $user->name,
                     'phone' => $user->phone,
+                    'profile' => $profile
                  ];
                 return response($response, 200);
             } else {
