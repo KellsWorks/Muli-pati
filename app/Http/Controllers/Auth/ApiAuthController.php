@@ -72,13 +72,17 @@ class ApiAuthController extends Controller
         $user = User::findOrFail($id);
 
         $profile = new Profile();
-        $profile->email = '';
-        $profile->location = '';
+
+        $request->validate([
+            'photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
         
         if($request->photo != ''){
 
             $photo = time().'.jpg';
-            file_put_contents('storage/profile/'.$photo, base64_decode($request->photo));
+
+            $request->photo->move(public_path('storage/profile/'), $photo);
+            // file_put_contents('storage/profile/'.$photo, base64_decode($request->photo));
             $profile->photo = $photo;
         }
         

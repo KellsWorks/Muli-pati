@@ -12,8 +12,6 @@ class Profile extends Model
 
     protected $table = 'profiles';
 
-    protected $fillable = ['role', 'photo', 'email', 'location'];
-
     public function user()
     {
         return $this->belongsTo(User::class);

@@ -18,9 +18,9 @@ class CreateProfilesTable extends Migration
             $table->integer('user_id')->unsigned()->nullable();
             $table->foreign('user_id')->references('id')->on('users');
             $table->string('role')->default('normal-user');
-            $table->string('photo');
-            $table->string('email');
-            $table->string('location');
+            $table->string('photo')->default('avatar.png');
+            $table->string('email')->default('null');
+            $table->string('location')->default('Blantyre');
             $table->timestamps();
         });
     }
