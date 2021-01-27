@@ -1,83 +1,292 @@
-<!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<!DOCTYPE html>
+<!--
+	App by FreeHTML5.co
+	Twitter: http://twitter.com/fh5co
+	URL: http://freehtml5.co
+-->
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta charset="UTF-8">
+	<title>App &mdash; Free Website Template, Free HTML5 Template by FreeHTML5.co</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="Free HTML5 Website Template by FreeHTML5.co" />
+	<meta name="keywords" content="free website templates, free html5, free template, free bootstrap, free website template, html5, css3, mobile first, responsive" />
+	<meta name="author" content="FreeHTML5.co" />
 
-    <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+	<!-- Facebook and Twitter integration -->
+	<meta property="og:title" content=""/>
+	<meta property="og:image" content=""/>
+	<meta property="og:url" content=""/>
+	<meta property="og:site_name" content=""/>
+	<meta property="og:description" content=""/>
+	<meta name="twitter:title" content="" />
+	<meta name="twitter:image" content="" />
+	<meta name="twitter:url" content="" />
+	<meta name="twitter:card" content="" />
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
-
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
-
-    <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
-
-    <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+	
+	<link rel="stylesheet" href="/assets/css/bootstrap.css">
+	<link rel="stylesheet" href="/assets/css/owl.carousel.css">
+	<link rel="stylesheet" href="/assets/css/owl.theme.default.min.css">
+	<link rel="stylesheet" href="/assets/css/animate.css">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+	<link rel="stylesheet" href="/assets/css/style.css">
 </head>
 <body>
-    <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
-            <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
-                </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
 
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav mr-auto">
 
-                    </ul>
+<div id="page-wrap">
 
-                    <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ml-auto">
-                        <!-- Authentication Links -->
-                        @guest
-                            @if (Route::has('login'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                                </li>
-                            @endif
-                            
-                            @if (Route::has('register'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                                </li>
-                            @endif
-                        @else
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }}
-                                </a>
+	<div id="fh5co-hero-wrapper">
+		<nav class="container navbar navbar-expand-lg main-navbar-nav navbar-light">
+			<a class="navbar-brand" href=""><img src="{{asset('/assets/img/icon.jpg')}}" height="60" width="150" alt="" srcset=""></a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
 
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
-                                    </a>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav nav-items-center ml-auto mr-auto">
+					<li class="nav-item active">
+						<a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#" onclick="$('#fh5co-features').goTo();return false;">Features</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#" onclick="$('#fh5co-reviews').goTo();return false;">Reviews</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#"  onclick="$('#fh5co-download').goTo();return false;">Download</a>
+					</li>
+				</ul>
+				<div class="social-icons-header">
+					<a href="https://www.facebook.com/fh5co"><i class="fab fa-facebook-f"></i></a>
+					<a href="https://freehtml5.co"><i class="fab fa-instagram"></i></a>
+					<a href="https://www.twitter.com/fh5co"><i class="fab fa-twitter"></i></a>
+				</div>
+			</div>
+		</nav>
 
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                        @csrf
-                                    </form>
-                                </div>
-                            </li>
-                        @endguest
-                    </ul>
-                </div>
-            </div>
-        </nav>
+		<div class="container fh5co-hero-inner">
+			<h1 class="animated fadeIn wow" data-wow-delay="0.4s">Muli pati transportation services</h1>
+			<p class="animated fadeIn wow" data-wow-delay="0.67s">Find nearby trips around Malawi and book. We are here to get you where you need to go around the clock. </p>
+			<button class="btn btn-md download-btn-first wow fadeInLeft animated" data-wow-delay="0.85s" onclick="$('#fh5co-download').goTo();return false;">Download</button>
+			<button class="btn btn-md features-btn-first animated fadeInLeft wow" data-wow-delay="0.95s" onclick="$('#fh5co-features').goTo();return false;">Features</button>
+			<img class="fh5co-hero-smartphone animated fadeInRight wow" data-wow-delay="1s" src="/assets/img/phone-image.png" alt="Smartphone">
+		</div>
 
-        <main class="py-4">
-            @yield('content')
-        </main>
-    </div>
+
+	<div class="fh5co-advantages-outer mt-5">
+		{{-- <div class="container">
+			<h1 class="second-title"><span class="span-perfect">Perfect</span> <span class="span-features">Features</span></h1>
+			<small>Only necessary</small>
+
+			<div class="row fh5co-advantages-grid-columns wow animated fadeIn" data-wow-delay="0.36s">
+
+				<div class="col-sm-4">
+					<img class="grid-image" src="/assets/img/icon-1.png" alt="Icon-1">
+					<h1 class="grid-title">Usability</h1>
+					<p class="grid-desc">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem cupiditate.</p>
+				</div>
+
+				<div class="col-sm-4">
+					<img class="grid-image" src="/assets/img/icon-2.png" alt="Icon-2">
+					<h1 class="grid-title">Parallax Effect</h1>
+					<p class="grid-desc">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem cupiditate.</p>
+				</div>
+
+				<div class="col-sm-4">
+					<img class="grid-image" src="/assets/img/icon-3.png" alt="Icon-3">
+					<h1 class="grid-title">Unlimited Colors</h1>
+					<p class="grid-desc">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem cupiditate.</p>
+				</div> --}}
+
+
+			</div>
+		</div>
+	</div>
+
+
+	<!-- ==========================================================================================================
+													  SLIDER
+		 ========================================================================================================== -->
+
+	<div class="fh5co-slider-outer wow fadeIn" data-wow-delay="0.36s">
+		<h1>OUTSTANDING INTERFACE</h1>
+		<small>A user friendly interface</small>
+		<div class="container fh5co-slider-inner">
+
+			<div class="owl-carousel owl-theme">
+
+				<div class="item"><img src="/assets/img/phone-image.png" alt=""></div>
+				<div class="item"><img src="/assets/img/smartphone-3.png" alt=""></div>
+				<div class="item"><img src="/assets/img/location.png" alt=""></div>
+				<div class="item"><img src="/assets/img/subscribe.png" alt=""></div>
+
+
+			</div>
+
+		</div>
+	</div>
+
+
+	<!-- ==========================================================================================================
+													  FEATURES
+		 ========================================================================================================== -->
+
+	<div class="curved-bg-div wow animated fadeIn" data-wow-delay="0.15s"></div>
+	<div id="fh5co-features" class="fh5co-features-outer">
+		<div class="container">
+
+			<div class="row fh5co-features-grid-columns">
+
+				<div class="col-sm-6 in-order-1 wow animated fadeInLeft" data-wow-delay="0.22s">
+					<div class="col-sm-image-container">
+						<img class="img-float-left" src="/assets/img/phone-image.png" alt="smartphone-1">
+						<span class="span-new">More!</span>
+						<span class="span-free">New</span>
+					</div>
+				</div>
+
+				<div class="col-sm-6 in-order-2 sm-6-content wow animated fadeInRight" data-wow-delay="0.22s">
+					<h1>BOOK A TRIP</h1>
+					<p>We are currently covering 4 cities; Blantyre, Zomba, Lilongwe and Mzuzu </p>
+					<span class="circle circle-first"><i class="fab fa-instagram"></i></span>
+					<span class="circle circle-middle"><i class="fab fa-facebook"></i></span>
+					<span class="circle circle-last"><i class="fab fa-twitter"></i></span>
+				</div>
+
+				<div class="col-sm-6 in-order-3 sm-6-content wow animated fadeInLeft" data-wow-delay="0.22s">
+					<h1>MAKE MONEY</h1>
+					<p>Are you a driver? Download the Muli pati agent app and start making trips today!</p>
+					<span class="circle circle-first"><i class="fas fa-star"></i></span>
+					<span class="circle circle-middle"><i class="far fa-star"></i></span>
+					<span class="circle circle-last"><i class="far fa-thumbs-up"></i></span>
+				</div>
+
+				<div class="col-sm-6 in-order-4 wow animated fadeInRight" data-wow-delay="0.22s">
+					<img class="img-float-right" src="/assets/img/subscribe.png" alt="smartphone-2">
+				</div>
+
+				<div class="col-sm-6 in-order-5 wow animated fadeInLeft" data-wow-delay="0.22s">
+					<div class="col-sm-image-container">
+						<img class="img-float-left" src="/assets/img/location.png" alt="smartphone-3">
+						<span class="span-data">SPOT</span>
+						<span class="span-percent">NEW!</span>
+					</div>
+				</div>
+				<div class="col-sm-6 in-order-6 sm-6-content wow animated fadeInRight" data-wow-delay="0.22s">
+					<h1>ARE YOU THERE YET?</h1>
+					<p>Muli pati will soon add a Spot Booking feature to get you where you need to go right at the spot! </p>
+					<span class="circle circle-first">95%</span>
+					<span class="circle circle-middle"><i class="fas fa-forward"></i></span>
+					<span class="circle circle-last"><i class="fab fa-github"></i></span>
+
+				</div>
+
+
+
+
+			</div> <!-- row -->
+
+
+		</div>
+	</div>
+
+
+	<!-- ==========================================================================================================
+													  REVIEWS
+		 ========================================================================================================== -->
+
+	<div id="fh5co-reviews" class="fh5co-reviews-outer">
+		<h1>What people are saying</h1>
+		<small>Reviews</small>
+		<div class="container fh5co-reviews-inner">
+			<div class="row justify-content-center">
+				<div class="col-sm-5 wow fadeIn animated" data-wow-delay="0.25s">
+					<img class="float-left" src="/assets/img/quotes-1.jpg" alt="Quote 1">
+					<p class="testimonial-desc">I made alot of money more than used to before this app came.</p>
+					<small class="testimonial-author">Kelvin Chidothi - Muli pati agent</small>
+					<img class="float-right" src="/assets/img/quotes-2.jpg" alt="Quote 2">
+				</div>
+				<div class="col-sm-5 testimonial-2 wow fadeIn animated" data-wow-delay="0.67s">
+					<img class="float-left" src="/assets/img/quotes-1.jpg" alt="Quote 1">
+					<p class="testimonial-desc">I dont need to search for trips to Lilongwe from Blantyre anymore, Thanks to this app.</p>
+					<small class="testimonial-author">Jerome Msampha - Muli pati user</small>
+					<img class="float-right" src="/assets/img/quotes-2.jpg" alt="Quote 2">
+				</div>
+			</div>
+
+		</div>
+	</div>
+	
+
+	<!-- ==========================================================================================================
+                                                 BOTTOM
+    ========================================================================================================== -->
+
+	<div id="fh5co-download" class="fh5co-bottom-outer">
+		<div class="overlay">
+			<div class="container fh5co-bottom-inner">
+				<div class="row">
+					<div class="col-sm-6">
+						<h1>How to download the app?</h1>
+						<p>Download the user or agent muli pati app(s) on Google Play Store.</p>
+						<a class="wow fadeIn animated" data-wow-delay="0.67s" href="#"><img class="google-play-btn" src="/assets/img/google.png" height="80" width="180" alt="Google Play Icon"></a>
+						<a class="wow fadeIn animated" data-wow-delay="0.67s" href="#"><img class="google-play-btn" src="/assets/img/google.png" height="80" width="180" alt="Google Play Icon"></a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<!-- ==========================================================================================================
+                                               SECTION 7 - SUB FOOTER
+    ========================================================================================================== -->
+
+	<footer class="footer-outer">
+		<div class="container footer-inner">
+
+			<div class="footer-three-grid wow fadeIn animated" data-wow-delay="0.66s">
+				<div class="column-1-3">
+					<img src="{{asset('/assets/img/icon-dark.jpg')}}" height="60" width="150" alt="" srcset="">
+				</div>
+				<div class="column-2-3">
+					<nav class="footer-nav">
+						<ul>
+							<a href="#" onclick="$('#fh5co-hero-wrapper').goTo();return false;"><li>Home</li></a>
+							<a href="#" onclick="$('#fh5co-features').goTo();return false;"><li>Features</li></a>
+							<a href="#" onclick="$('#fh5co-reviews').goTo();return false;"><li>Reviews</li></a>
+							<a href="#" onclick="$('#fh5co-download').goTo();return false;"><li class="active">Download</li></a>
+						</ul>
+					</nav>
+				</div>
+				<div class="column-3-3">
+					<div class="social-icons-footer">
+						<a href="https://www.facebook.com/fh5co"><i class="fab fa-facebook-f"></i></a>
+						<a href="https://freehtml5.co"><i class="fab fa-instagram"></i></a>
+						<a href="https://www.twitter.com/fh5co"><i class="fab fa-twitter"></i></a>
+					</div>
+				</div>
+			</div>
+
+			<span class="border-bottom-footer"></span>
+
+			<p class="copyright">&copy; {{date('Y')}} Muli pati. All rights reserved.</p>
+
+		</div>
+	</footer>
+
+
+
+
+</div> <!-- main page wrapper -->
+	
+	<script src="/assets/js/jquery.min.js"></script>
+	<script src="/assets/js/bootstrap.js"></script>
+	<script src="/assets/js/owl.carousel.js"></script>
+	<script src="/assets/js/wow.min.js"></script>
+	<script src="/assets/js/main.js"></script>
 </body>
 </html>

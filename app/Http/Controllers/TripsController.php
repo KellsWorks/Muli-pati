@@ -5,23 +5,26 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Trips;
 use App\Models\User;
+use App\Models\Profile;
 use DateTime;
 use Carbon\Carbon;
+use App\Models\Notifications;
 
 class TripsController extends Controller
 {
-    public function create(Request $request, $id){
+    public function create(Request $request){
 
+        $id = $request->id;
         $trip = new Trips();
 
         $user = User::findOrFail($id);
-
+    
         $trip->start = $request->start;
         $trip->destination = $request->destination;
         $trip->start_time = $request->start_time;
         $trip->end_time = $request->end_time;
         $trip->pick_up_place = $request->pick_up_place;
-        $trip->location = $request->location;
+        $trip->location = $request->get('location');
         $trip->number_of_passengers = $request->number_of_passengers;
         $trip->passenger_fare = $request->passenger_fare;
         $trip->car_type = $request->car_type;
@@ -107,6 +110,14 @@ class TripsController extends Controller
             $trip->status = 'booked';
             $trip->update();
         }
+        // $startTime = $trip->start_time;
+
+        // $notify = new Notifications();
+
+        // $notify->title = 'Booking successful!';
+        // $notify->content = 'You have booked a trip on '.$startTime;
+        
+        // $user->notify()->save($notify);
 
         return response([
             'message' => 'success'
@@ -160,6 +171,30 @@ class TripsController extends Controller
         return response([
             'message' => 'success'
         ], 200);
+    }
+
+    //Getting all trips
+
+    public function allTrips(Request $request){
+
+        $trips = Trips::all();
+
+            return response([
+                'trips' => $trips
+            ], 200);
+    
+    }
+
+    public function allTripsLocation(Request $request, $location){
+
+        $trips = Trips::where(
+            'location', $location
+        )->get();
+
+            return response([
+                'trips' => $trips
+            ], 200);
+    
     }
     
 }
