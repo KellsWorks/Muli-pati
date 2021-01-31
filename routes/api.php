@@ -17,13 +17,13 @@ use Illuminate\Support\Facades\Route;
 //Authentication routes
 
 Route::group(['middleware' => ['cors', 'json.response']], function () {
-    
+
     Route::post('v1/login', [App\Http\Controllers\Auth\ApiAuthController::class, 'login'])->name('login.api');
     Route::post('v1/register',[App\Http\Controllers\Auth\ApiAuthController::class, 'register'])->name('register.api');
 
     //admin register
     Route::post('v1/register-admin',[App\Http\Controllers\Auth\ApiAuthController::class, 'registerAgent'])->name('registerAgent.api');
-    
+
     Route::post('v1/logout', [App\Http\Controllers\Auth\ApiAuthController::class, 'logout'])->name('logout.api');
 
     Route::post('v1/delete', [App\Http\Controllers\Auth\ApiAuthController::class, 'delete'])->name('delete.api');
@@ -40,7 +40,7 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
 //subscriptions routes
 
 Route::group(['middleware' => ['json.response']], function () {
-    
+
     Route::post('v1/subscription/subscribe', [App\Http\Controllers\SubscriptionsController::class, 'subscribe']);
     Route::get('v1/subscription/end-subscription', [App\Http\Controllers\SubscriptionsController::class, 'endSubscription']);
 
@@ -49,16 +49,17 @@ Route::group(['middleware' => ['json.response']], function () {
 //FCM
 
 Route::group(['middleware' => ['json.response']], function () {
-    
+
     Route::post('v1/fcm-token/save', [App\Http\Controllers\FCMController::class, 'saveToken']);
-    
+    Route::post('v1/fcm-token/check', [App\Http\Controllers\BookingsController::class, 'getToken']);
+
 });
 
 
 //trips routes
 
 Route::group(['middleware' => ['json.response']], function () {
-    
+
     Route::post('v1/trips/create', [App\Http\Controllers\TripsController::class, 'create']);
 
     Route::get('v1/trips/all', [App\Http\Controllers\TripsController::class, 'trips']);
@@ -66,7 +67,7 @@ Route::group(['middleware' => ['json.response']], function () {
     Route::post('v1/trips/book', [App\Http\Controllers\TripsController::class, 'book']);
 
     Route::post('v1/trips/completed', [App\Http\Controllers\TripsController::class, 'completed']);
-  
+
     Route::post('v1/trips/cancelled', [App\Http\Controllers\TripsController::class, 'cancelled']);
 
     Route::post('v1/trips/delete', [App\Http\Controllers\TripsController::class, 'delete']);
@@ -80,6 +81,9 @@ Route::group(['middleware' => ['json.response']], function () {
 
     //User bookings
     Route::post('v1/trips/book-trip', [App\Http\Controllers\BookingsController::class, 'create']);
+    Route::post('v1/trips/user-trips', [App\Http\Controllers\BookingsController::class, 'getBookedTrips']);
+    Route::post('v1/trips/user-cancelled-trips', [App\Http\Controllers\BookingsController::class, 'getCancelledTrips']);
+    Route::post('v1/trips/user-bookings', [App\Http\Controllers\BookingsController::class, 'getUserBookings']);
     Route::post('v1/trips/cancel-trip', [App\Http\Controllers\BookingsController::class, 'cancel']);
 
 });
@@ -87,7 +91,7 @@ Route::group(['middleware' => ['json.response']], function () {
 // Messaging routes
 
 Route::group(['middleware' => ['json.response']], function () {
-    
+
     Route::post('v1/message/create', [App\Http\Controllers\MessagingController::class, 'create']);
 
     Route::get('v1/message/get-messages', [App\Http\Controllers\MessagingController::class, 'getMessages']);

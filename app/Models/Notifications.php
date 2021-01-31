@@ -4,9 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Notifications;
 
-class NotificationsModel extends Model
+class Notifications extends Model
 {
     use HasFactory;
 
