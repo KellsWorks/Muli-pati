@@ -24,7 +24,7 @@
 	<meta name="twitter:url" content="" />
 	<meta name="twitter:card" content="" />
 
-	
+
 	<link rel="stylesheet" href="/assets/css/bootstrap.css">
 	<link rel="stylesheet" href="/assets/css/owl.carousel.css">
 	<link rel="stylesheet" href="/assets/css/owl.theme.default.min.css">
@@ -219,7 +219,7 @@
 
 		</div>
 	</div>
-	
+
 
 	<!-- ==========================================================================================================
                                                  BOTTOM
@@ -282,7 +282,7 @@
 
 
 </div> <!-- main page wrapper -->
-	
+
 	<script src="/assets/js/jquery.min.js"></script>
 	<script src="/assets/js/bootstrap.js"></script>
 	<script src="/assets/js/owl.carousel.js"></script>

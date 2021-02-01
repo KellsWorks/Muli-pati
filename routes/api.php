@@ -51,7 +51,6 @@ Route::group(['middleware' => ['json.response']], function () {
 Route::group(['middleware' => ['json.response']], function () {
 
     Route::post('v1/fcm-token/save', [App\Http\Controllers\FCMController::class, 'saveToken']);
-    Route::post('v1/fcm-token/check', [App\Http\Controllers\BookingsController::class, 'getToken']);
 
 });
 
@@ -94,7 +93,7 @@ Route::group(['middleware' => ['json.response']], function () {
 
     Route::post('v1/message/create', [App\Http\Controllers\MessagingController::class, 'create']);
 
-    Route::get('v1/message/get-messages', [App\Http\Controllers\MessagingController::class, 'getMessages']);
+    Route::post('v1/message/get-messages', [App\Http\Controllers\MessagingController::class, 'getMessages']);
 
     Route::get('v1/message/delete', [App\Http\Controllers\MessagingController::class, 'delete']);
 

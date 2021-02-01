@@ -10,10 +10,16 @@ use App\Models\Notifications;
 use App\Models\FCM;
 use Illuminate\Support\Facades\DB;
 use DateTime;
+use App\Models\Messages;
 
 class BookingsController extends Controller
 {
     public function create(Request $request){
+
+
+        return response([
+            'message' => 'success'
+        ], 200);
 
         $id = $request->booker_id;
         $trip_id = $request->trip_id;
@@ -21,6 +27,7 @@ class BookingsController extends Controller
         if(Bookings::where('trip_id', $trip_id)->exists() && Bookings::where('user_id', $id)->exists()){
             return response(
                 [
+                    'notification' => 'null',
                     'message' => 'You already booked this trip'
                 ], 202
             );
@@ -53,6 +60,16 @@ class BookingsController extends Controller
             $notification->user_id = $id;
             $notification->content = $content;
             $notification->save();
+
+            $message = new Messages();
+            $message->from = $tripsTable->user_id;
+
+            $message->to = $id;
+            $message->message = "Thank you for booking this trip. Let's stay in touch in this chat room.";
+            $message->time = "00:00";
+
+            $message->is_read = 0;
+            $message->save();
 
             $curl = curl_init();
 
@@ -98,19 +115,16 @@ class BookingsController extends Controller
 
     public function getBookedTrips(Request $request){
 
-        $status = Bookings::where("user_id", $request->id)->pluck('status');
-
-        foreach ($status as $item) {
-            if($item == "booked"){
-                $bookings = Bookings::where("status", $item)->pluck('trip_id');
-                $trips = Trips::findOrFail($bookings);
-                return response(
-                    [
-                        "userTrips" => $trips
-                    ], 200
-                );
-            }
+        $status = Bookings::where("user_id", $request->id)
+                            ->where("status", "booked")
+                            ->pluck('trip_id');
+        foreach($status as $item){
+            $trips = Trips::findOrFail($status);
+            return response([
+                "userTrips" => $trips
+            ], 200);
         }
+
 
     }
 
@@ -143,13 +157,16 @@ class BookingsController extends Controller
 
     public function cancel(Request $request){
 
-        $trip = Bookings::findOrFail($request->id);
-        $trip->status = 'cancelled';
-        $trip->update();
+        $id = Bookings::where("user_id", $request->id)->where("trip_id", $request->trip_id)->pluck('id');
+
+        $bookings = Bookings::where('id', $id)
+                   ->update([
+                       'status' => 'cancelled'
+                   ]);
 
         return response(
             [
-                'message' => 'trip cancelled'
+                'message' => $bookings
             ],
             200
         );
@@ -166,17 +183,5 @@ class BookingsController extends Controller
             ],
             200
         );
-    }
-
-    public function getToken(Request $request){
-        $start = DB::table('trips')
-                         ->where('user_id', $request->id)
-                         ->where('id', $request->tripId)
-                         ->get()[0];
-
-                         return response([
-                            'token' => $start
-                        ], 200);
-
     }
 }

@@ -16,6 +16,7 @@ class MessagingController extends Controller
 
         $message->to = $request->to;
         $message->message = $request->message;
+        $message->time = $request->time;
 
         $message->is_read = 0;
         $message->save();
@@ -23,24 +24,27 @@ class MessagingController extends Controller
         return response([
             'message' => 'success'
         ], 200);
-        
+
     }
 
     public function getMessages(Request $request){
 
-        $user = User::findOrFail($request->id);
-        $sender = Profile::where('user_id', $user->id)->get();
+        $sender = $request->fromId;
+        $receiver =  $request->toId;
 
-        $messages = Messages::where('from', $user->id)
-                    ->get();
+        $messages = Messages::where( function ($query) use ($sender, $receiver){
+            $query->where('from', $sender)->where('to', $receiver);
+        })
+        ->orWhere( function ($query) use ($sender, $receiver){
+            $query->where('from', $receiver)->where('to', $sender);
+        })->orderBy("created_at", 'asc')->get();
 
         return response(
             [
-                'sender' => $sender,
                 'messages' => $messages
             ], 200
         );
-        
+
     }
 
     public function delete(Request $request){
