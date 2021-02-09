@@ -10,6 +10,7 @@ use App\Models\Subscriptions;
 use App\Models\FCM;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ApiAuthController extends Controller
 {
@@ -22,7 +23,7 @@ class ApiAuthController extends Controller
         {
             return response(['errors'=>$validator->errors()->all()], 422);
         }
-        
+
         $request['password']=Hash::make($request['password']);
         $request['remember_token'] = Str::random(10);
 
@@ -39,7 +40,7 @@ class ApiAuthController extends Controller
 
         $profile->photo = 'avatar.png';
         $profile->user_id = $user->id;
-        
+
         $user->profile()->save($profile);
 
         $fcm = new FCM();
@@ -56,25 +57,27 @@ class ApiAuthController extends Controller
     }
 
     public function login (Request $request) {
-        
+
         $user = User::where('phone', $request->phone)->first();
-        
+
         if ($user) {
             if (Hash::check($request->password, $user->password)) {
                 $token = $user->createToken('appToken')->accessToken;
 
                 $profile = Profile::where('user_id', $user->id)->get();
+                $fcmId = FCM::where('user_id', $user->id)->pluck("id");
 
                 $response = [
                     'token' => $token,
                     'name' => $user->name,
                     'id' => $user->id,
+                    'fcmId' => $fcmId,
                     'phone' => $user->phone,
                     'membership' => date("d M Y", strtotime($user->created_at)),
                     'profile' => $profile
                  ];
                 return response($response, 200);
-                
+
 
             } else {
                 $response = ["message" => "Password mismatch"];
@@ -98,7 +101,7 @@ class ApiAuthController extends Controller
     }
 
     public function logout (Request $request) {
-        
+
         $response = ['message' => 'You have been successfully logged out!'];
         return response($response, 200);
     }
@@ -115,7 +118,7 @@ class ApiAuthController extends Controller
         // $request->validate([
         //     'photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         // ]);
-        
+
         if($request->photo != ''){
 
             $photo = time().'.jpg';
@@ -131,7 +134,7 @@ class ApiAuthController extends Controller
                 'photo' => $photo
             ], 200);
         }
-        
+
     }
 
     public function updateLocation(Request $request){
@@ -160,12 +163,12 @@ class ApiAuthController extends Controller
 
         $user->update();
 
-        
+
         return response([
             'user' => $user,
             'profile' => $profile
         ], 200);
-        
+
     }
 
 
@@ -182,7 +185,7 @@ class ApiAuthController extends Controller
         {
             return response(['errors'=>$validator->errors()->all()], 422);
         }
-        
+
         $request['password']=Hash::make($request['password']);
         $request['remember_token'] = Str::random(10);
 
@@ -200,14 +203,20 @@ class ApiAuthController extends Controller
         $profile->photo = 'avatar.png';
         $profile->user_id = $user->id;
         $profile->role = 'agent-user';
-        
+
         $user->profile()->save($profile);
+
+        $fcm = new FCM();
+        $fcm->user_id = $user->id;
+        $fcm->has_token= 0;
+        $fcm->token = "token";
+        $fcm->save();
 
         $subscribe = new Subscriptions();
 
         $subscribe->agent_id = $user->id;
         $subscribe->expiry_date = $user->created_at;
-        
+
         $subscribe->save();
 
         $subscribe->expiry_date = $subscribe->updated_at->addDays(30);
@@ -219,5 +228,13 @@ class ApiAuthController extends Controller
             'token' => $token,
          ];
         return response($response, 200);
+    }
+
+    public function getUsers(){
+        $users = User::all('id', 'name');
+
+        return response([
+            "app_users" => $users
+        ]);
     }
 }

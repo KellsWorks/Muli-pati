@@ -3,12 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Notifications;
 use App\Models\FCM;
 
 class FCMController extends Controller
 {
-    
+
     public function saveToken(Request $request){
 
         $token = FCM::findOrFail($request->id);

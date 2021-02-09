@@ -16,11 +16,6 @@ class BookingsController extends Controller
 {
     public function create(Request $request){
 
-
-        return response([
-            'message' => 'success'
-        ], 200);
-
         $id = $request->booker_id;
         $trip_id = $request->trip_id;
 
@@ -36,8 +31,12 @@ class BookingsController extends Controller
             $bookings = new Bookings();
             $user = User::findOrFail($id);
 
+            $tripDetails = Trips::findOrFail($trip_id);
+
             $bookings->status = 'booked';
             $bookings->trip_id = $trip_id;
+            $bookings->start = $tripDetails->start;
+            $bookings->destination = $tripDetails->destination;
 
             $user->bookings()->save($bookings);
 
@@ -147,7 +146,7 @@ class BookingsController extends Controller
     }
 
     public function getUserBookings(Request $request){
-        $bookings = Bookings::where("user_id", $request->user_id)->get();
+        $bookings = Bookings::all();
         return response(
             [
                 "userBookings" => $bookings

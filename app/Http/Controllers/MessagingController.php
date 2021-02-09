@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Messages;
-use App\Models\User;
-use App\Models\Profile;
+use App\Models\Notifications;
+use App\Models\FCM;
 
 class MessagingController extends Controller
 {
@@ -20,6 +20,44 @@ class MessagingController extends Controller
 
         $message->is_read = 0;
         $message->save();
+
+        $notification = new Notifications();
+            $notification->title = "You have a new message";
+            $notification->user_id = $request->to;
+            $notification->content = $request->message;
+            $notification->save();
+
+            $curl = curl_init();
+
+            $toId = FCM::where("user_id", $request->to)->pluck('token');
+
+            $payload = [
+
+                'registration_ids' => $toId,
+
+                'notification' => [
+                  'title' =>"You have a new message",
+                  'body' => $request->message
+                ]
+                ];
+
+            curl_setopt_array($curl, [
+            CURLOPT_URL => "https://fcm.googleapis.com/fcm/send",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_POSTFIELDS => json_encode($payload),
+            CURLOPT_HTTPHEADER => [
+                "Authorization: key=AAAAIhMcKng:APA91bFpWWPMkqDld-dV7RlbE_ZE8kqJbJLu9CP36QjM4-O8encnbWyIDJbtRis2fTHOOeTloCUi1hNEq4-sG9qXjt9iRDkhrufkPGxOyiftZxstbucqBpD380he4i479auew6WB12Ma",
+                "Content-Type: application/json"],
+            ]);
+
+            curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
+            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
+
 
         return response([
             'message' => 'success'
@@ -49,7 +87,7 @@ class MessagingController extends Controller
 
     public function delete(Request $request){
         try {
-            $messages = Messages::where('from', $request->id)->delete();
+            Messages::where('from', $request->id)->delete();
         return response(
             ['messages' => 'success'], 200
         );

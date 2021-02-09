@@ -21,6 +21,10 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
     Route::post('v1/login', [App\Http\Controllers\Auth\ApiAuthController::class, 'login'])->name('login.api');
     Route::post('v1/register',[App\Http\Controllers\Auth\ApiAuthController::class, 'register'])->name('register.api');
 
+
+    Route::post('v1/users',[App\Http\Controllers\Auth\ApiAuthController::class, 'getUsers'])->name('getUsers.api');
+
+
     //admin register
     Route::post('v1/register-admin',[App\Http\Controllers\Auth\ApiAuthController::class, 'registerAgent'])->name('registerAgent.api');
 
@@ -61,9 +65,9 @@ Route::group(['middleware' => ['json.response']], function () {
 
     Route::post('v1/trips/create', [App\Http\Controllers\TripsController::class, 'create']);
 
-    Route::get('v1/trips/all', [App\Http\Controllers\TripsController::class, 'trips']);
+    Route::get('v1/trips/all', [App\Http\Controllers\TripsController::class, 'allTrips']);
 
-    Route::post('v1/trips/book', [App\Http\Controllers\TripsController::class, 'book']);
+    Route::post('v1/trips/bookings', [App\Http\Controllers\TripsController::class, 'getBookings']);
 
     Route::post('v1/trips/completed', [App\Http\Controllers\TripsController::class, 'completed']);
 
@@ -72,6 +76,8 @@ Route::group(['middleware' => ['json.response']], function () {
     Route::post('v1/trips/delete', [App\Http\Controllers\TripsController::class, 'delete']);
 
     Route::post('v1/trips/update', [App\Http\Controllers\TripsController::class, 'update']);
+
+    Route::post('v1/trips/trip-status', [App\Http\Controllers\TripsController::class, 'statusDelete']);
 
 
     Route::get('v1/trips/trips/all', [App\Http\Controllers\TripsController::class, 'allTrips']);
@@ -96,5 +102,15 @@ Route::group(['middleware' => ['json.response']], function () {
     Route::post('v1/message/get-messages', [App\Http\Controllers\MessagingController::class, 'getMessages']);
 
     Route::get('v1/message/delete', [App\Http\Controllers\MessagingController::class, 'delete']);
+
+});
+
+//User notifications
+
+Route::group(['middleware' => ['json.response']], function () {
+
+    Route::post('v1/notifications/user-notifications', [App\Http\Controllers\NotificationsController::class, 'userNotification']);
+    Route::post('v1/notifications/user-mark-notification', [App\Http\Controllers\NotificationsController::class, 'markAsRead']);
+    Route::post('v1/notifications/user-notification-delete', [App\Http\Controllers\NotificationsController::class, 'delete']);
 
 });
